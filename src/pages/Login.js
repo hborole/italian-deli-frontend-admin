@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { signIn } from '../store/auth';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,8 +13,15 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const response = await dispatch(signIn({ email, password }));
+    if (response) {
+      navigate('/');
+    }
   };
 
   return (
