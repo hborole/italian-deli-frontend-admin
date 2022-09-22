@@ -1,0 +1,21 @@
+@import './styles/_variables';
+
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  color: currentColor;
+  box-sizing: border-box;
+}
+
+$theme-colors: (
+  'primary': $color-primary,
+  'secondary': $color-secondary,
+  'error': $color-error,
+  'danger': $color-error,
+  'success': $color-success,
+);
+
+@import 'node_modules/bootstrap/scss/bootstrap';
