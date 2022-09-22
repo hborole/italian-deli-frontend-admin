@@ -1,16 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { getCurrentUser } from './store/auth';
+import { useEffect } from 'react';
+
+import './App.scss';
 
 import Layout from './pages/Layout';
-import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import NoPage from './pages/NoPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Signout from './pages/Signout';
 import Loading from './pages/Loading';
-import './App.scss';
-import { getCurrentUser } from './store/auth';
-import { useEffect } from 'react';
+
+import Customers from './pages/Customers';
 
 export default function App() {
   const auth = useSelector((state) => state.auth);
@@ -32,8 +35,12 @@ export default function App() {
         {!auth.isAuthenticating &&
           (auth.currentUser ? (
             <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
+              <Route index element={<Dashboard />} />
+
+              <Route path="/customers" element={<Customers />} />
+
               <Route path="/signout" element={<Signout />} />
+
               <Route path="*" element={<NoPage />} />
             </Route>
           ) : (

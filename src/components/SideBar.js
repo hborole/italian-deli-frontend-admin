@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
 import {
   ProSidebar,
   SidebarHeader,
@@ -8,10 +11,9 @@ import {
   // SubMenu,
 } from 'react-pro-sidebar';
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-
 export default function SideBar() {
+  const location = useLocation().pathname;
+
   return (
     <ProSidebar style={{ height: `95vh` }}>
       <SidebarHeader className="navbar-header">
@@ -20,19 +22,19 @@ export default function SideBar() {
 
       <SidebarContent>
         <Menu iconShape="square">
-          <MenuItem>
+          <MenuItem className={location === '/' && 'sidebar-active'}>
             Dashboard
             <Link to="/" />
           </MenuItem>
-          <MenuItem>
+          <MenuItem className={location === '/products' && 'sidebar-active'}>
             Products
             <Link to="/products" />
           </MenuItem>
-          <MenuItem>
+          <MenuItem className={location === '/customers' && 'sidebar-active'}>
             Customers
             <Link to="/customers" />
           </MenuItem>
-          <MenuItem>
+          <MenuItem className={location === '/orders' && 'sidebar-active'}>
             Orders
             <Link to="/orders" />
           </MenuItem>

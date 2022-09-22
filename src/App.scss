@@ -19,7 +19,7 @@ $theme-colors: (
 );
 
 $sidebar-bg-color: rgba($color-secondary, 0.5);
-$sidebar-color: $color-black;
+$sidebar-color: $color-grey-dark-3;
 $highlight-color: $color-black;
 
 @import 'node_modules/bootstrap/scss/bootstrap';
@@ -28,6 +28,10 @@ $highlight-color: $color-black;
 h1 {
   font-family: 'GFS Didot', serif;
   font-family: 'Great Vibes', cursive;
+  margin-bottom: 0;
+}
+
+h2 {
   margin-bottom: 0;
 }
 
@@ -44,4 +48,8 @@ h1 {
   margin: 1rem;
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+.sidebar-active {
+  background-color: rgba($color-white, 0.8);
 }
