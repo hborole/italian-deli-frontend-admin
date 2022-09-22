@@ -1,6 +1,10 @@
 import Table from 'react-bootstrap/Table';
 
 function DataTable({ columns, rows }) {
+  if (rows.length === 0) {
+    return <p>No data</p>;
+  }
+
   return (
     <Table striped bordered hover responsive>
       <thead>

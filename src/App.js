@@ -15,6 +15,9 @@ import Loading from './pages/Loading';
 
 import Customers from './pages/Customers';
 
+import Products from './pages/Product/Products';
+import ProductCreate from './pages/Product/ProductCreate';
+
 export default function App() {
   const auth = useSelector((state) => state.auth);
 
@@ -38,6 +41,9 @@ export default function App() {
               <Route index element={<Dashboard />} />
 
               <Route path="/customers" element={<Customers />} />
+
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/new" element={<ProductCreate />} />
 
               <Route path="/signout" element={<Signout />} />
 
