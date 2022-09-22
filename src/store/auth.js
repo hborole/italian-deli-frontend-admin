@@ -60,18 +60,18 @@ export const signUp =
   ({ firstName, lastName, email, password }) =>
   async (dispatch) => {
     try {
-      const response = await axiosInstance({
+      await axiosInstance({
         url: '/api/auth/signup',
         method: 'POST',
         body: {
-          firstName,
-          lastName,
+          first_name: firstName,
+          last_name: lastName,
           email,
           password,
         },
       });
 
-      dispatch(setCurrentUser(response.data.currentUser));
+      await dispatch(getCurrentUser());
       return true;
     } catch (err) {
       console.log(`Error while signing up: ${err}`);
