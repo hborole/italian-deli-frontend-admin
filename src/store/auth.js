@@ -5,6 +5,7 @@ import catchErrors from '../services/catchErrors';
 const initialState = {
   currentUser: null,
   isAuthenticating: true,
+  isLoading: false,
   errors: [],
 };
 
@@ -27,6 +28,9 @@ export const authSlice = createSlice({
     clearErrors: (state) => {
       state.errors = [];
     },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
@@ -37,10 +41,12 @@ export const {
   clearCurrentUser,
   setErrors,
   clearErrors,
+  setLoading,
 } = authSlice.actions;
 
 export const getCurrentUser = () => async (dispatch) => {
   try {
+    dispatch(setLoading(true));
     const response = await axiosInstance({
       url: '/api/auth/currentuser',
       method: 'GET',
@@ -48,10 +54,12 @@ export const getCurrentUser = () => async (dispatch) => {
 
     dispatch(setCurrentUser(response.data.currentUser));
     dispatch(setIsAuthenticating(false));
+    dispatch(setLoading(false));
     return true;
   } catch (err) {
     console.log(`Error while getting current user: ${err}`);
     dispatch(setIsAuthenticating(false));
+    dispatch(setLoading(false));
     return false;
   }
 };
@@ -59,6 +67,7 @@ export const getCurrentUser = () => async (dispatch) => {
 export const signUp =
   ({ firstName, lastName, email, password }) =>
   async (dispatch) => {
+    dispatch(setLoading(true));
     try {
       await axiosInstance({
         url: '/api/auth/signup',
@@ -72,11 +81,13 @@ export const signUp =
       });
 
       await dispatch(getCurrentUser());
+      dispatch(setLoading(false));
       return true;
     } catch (err) {
       console.log(`Error while signing up: ${err}`);
       const errs = catchErrors(err);
       dispatch(setErrors(errs));
+      dispatch(setLoading(false));
       return false;
     }
   };
@@ -85,6 +96,7 @@ export const signIn =
   ({ email, password }) =>
   async (dispatch) => {
     try {
+      dispatch(setLoading(true));
       await axiosInstance({
         url: '/api/auth/signin',
         method: 'POST',
@@ -95,27 +107,32 @@ export const signIn =
       });
 
       await dispatch(getCurrentUser());
+      dispatch(setLoading(false));
       return true;
     } catch (err) {
       console.log(`Error while signing in: ${err}`);
       const errs = catchErrors(err);
       dispatch(setErrors(errs));
+      dispatch(setLoading(false));
       return false;
     }
   };
 
 export const signOut = () => async (dispatch) => {
   try {
+    dispatch(setLoading(true));
     const response = await axiosInstance({
       url: '/api/auth/signout',
     });
 
     dispatch(setCurrentUser(response.data.currentUser));
+    dispatch(setLoading(false));
     return true;
   } catch (err) {
     console.log(`Error while signing out: ${err}`);
     const errs = catchErrors(err);
     dispatch(setErrors(errs));
+    dispatch(setLoading(false));
     return false;
   }
 };

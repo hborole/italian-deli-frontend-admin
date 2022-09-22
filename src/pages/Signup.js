@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { signUp, clearErrors } from '../store/auth';
+import { signUp, clearErrors, setLoading } from '../store/auth';
 import errors from '../services/errors';
 
 import Row from 'react-bootstrap/Row';
@@ -21,6 +21,7 @@ export default function SignUp() {
   useEffect(() => {
     return () => {
       dispatch(clearErrors());
+      dispatch(setLoading(false));
     };
   }, [dispatch]);
 
@@ -35,7 +36,9 @@ export default function SignUp() {
     }
   };
 
-  const { errors: authErrors } = useSelector((state) => state.auth);
+  const { errors: authErrors, isLoading: authLoading } = useSelector(
+    (state) => state.auth
+  );
 
   return (
     <>
@@ -86,7 +89,9 @@ export default function SignUp() {
           <Col>{errors(authErrors)}</Col>
         </Row>
 
-        <button className="btn btn-success">Sign Up</button>
+        <button className="btn btn-success" disabled={authLoading}>
+          {authLoading ? 'Signing you up...' : 'Sign Up'}
+        </button>
       </Form>
 
       <div className="container mt-5">

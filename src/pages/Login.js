@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { signIn, clearErrors } from '../store/auth';
+import { signIn, clearErrors, setLoading } from '../store/auth';
 import errors from '../services/errors';
 
 import Row from 'react-bootstrap/Row';
@@ -19,6 +19,7 @@ export default function Login() {
   useEffect(() => {
     return () => {
       dispatch(clearErrors());
+      dispatch(setLoading(false));
     };
   }, [dispatch]);
 
@@ -31,7 +32,9 @@ export default function Login() {
     }
   };
 
-  const { errors: authErrors } = useSelector((state) => state.auth);
+  const { errors: authErrors, isLoading: authLoading } = useSelector(
+    (state) => state.auth
+  );
 
   return (
     <>
@@ -65,7 +68,9 @@ export default function Login() {
           <Col>{errors(authErrors)}</Col>
         </Row>
 
-        <button className="btn btn-success">Login</button>
+        <button className="btn btn-success" disabled={authLoading}>
+          {authLoading ? 'Logging you in...' : 'Login'}
+        </button>
       </Form>
 
       <div className="container mt-5">
