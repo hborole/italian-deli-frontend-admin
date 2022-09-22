@@ -18,7 +18,12 @@ $theme-colors: (
   'success': $color-success,
 );
 
+$sidebar-bg-color: rgba($color-secondary, 0.5);
+$sidebar-color: $color-black;
+$highlight-color: $color-black;
+
 @import 'node_modules/bootstrap/scss/bootstrap';
+@import '~react-pro-sidebar/dist/scss/styles.scss';
 
 h1 {
   font-family: 'GFS Didot', serif;
@@ -27,9 +32,16 @@ h1 {
 }
 
 .navbar-header {
-  margin: 0.5rem 2rem 0.5rem 0;
+  padding: 1rem 0 1rem 1rem;
 }
 
 .btn-success {
   color: white;
+}
+
+.sidebar-container {
+  height: 95vh;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
