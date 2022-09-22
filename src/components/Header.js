@@ -8,12 +8,14 @@ export default function Header() {
       <Navbar
         collapseOnSelect
         expand="lg"
-        bg="light"
+        bg="secondary"
         variant="light"
         sticky="top"
       >
         <Container>
-          <Navbar.Brand href="/">Italian Deli</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <h1 className="navbar-header">Italian Deli</h1>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">

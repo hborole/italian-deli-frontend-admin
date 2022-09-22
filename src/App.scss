@@ -19,3 +19,17 @@ $theme-colors: (
 );
 
 @import 'node_modules/bootstrap/scss/bootstrap';
+
+h1 {
+  font-family: 'GFS Didot', serif;
+  font-family: 'Great Vibes', cursive;
+  margin-bottom: 0;
+}
+
+.navbar-header {
+  margin: 0.5rem 2rem 0.5rem 0;
+}
+
+.btn-success {
+  color: white;
+}
