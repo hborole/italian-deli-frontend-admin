@@ -9,6 +9,7 @@ const axiosInstance = ({ url, method, body }) =>
       'Content-Type': 'application/json',
     },
     withCredentials: true,
+    timeout: 5000,
   });
 
 export default axiosInstance;

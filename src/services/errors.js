@@ -3,11 +3,8 @@ const errors = (errs) => {
 
   return (
     <div className="alert alert-danger" role="alert">
-      {errs.map((err) => (
-        <>
-          <div key={err.message}>{err.message}</div>
-          {err.field && <div key={err.field}>{err.field}</div>}
-        </>
+      {errs.map((err, index) => (
+        <div key={index}>{err.message}</div>
       ))}
     </div>
   );

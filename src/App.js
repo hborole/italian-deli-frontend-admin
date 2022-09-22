@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Signout from './pages/Signout';
 import Loading from './pages/Loading';
 import './App.scss';
 import { getCurrentUser } from './store/auth';
@@ -13,7 +14,6 @@ import { useEffect } from 'react';
 
 export default function App() {
   const auth = useSelector((state) => state.auth);
-  console.log(auth.isAuthenticating);
 
   const dispatch = useDispatch();
 
@@ -33,8 +33,7 @@ export default function App() {
           (auth.currentUser ? (
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signout" element={<Signout />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           ) : (

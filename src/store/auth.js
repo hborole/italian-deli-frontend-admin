@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../services/axiosInstance';
+import catchErrors from '../services/catchErrors';
 
 const initialState = {
   currentUser: null,
   isAuthenticating: true,
+  errors: [],
 };
 
 export const authSlice = createSlice({
@@ -19,12 +21,23 @@ export const authSlice = createSlice({
     clearCurrentUser: (state) => {
       state.currentUser = null;
     },
+    setErrors: (state, action) => {
+      state.errors = action.payload;
+    },
+    clearErrors: (state) => {
+      state.errors = [];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCurrentUser, setIsAuthenticating, clearCurrentUser } =
-  authSlice.actions;
+export const {
+  setCurrentUser,
+  setIsAuthenticating,
+  clearCurrentUser,
+  setErrors,
+  clearErrors,
+} = authSlice.actions;
 
 export const getCurrentUser = () => async (dispatch) => {
   try {
@@ -33,12 +46,13 @@ export const getCurrentUser = () => async (dispatch) => {
       method: 'GET',
     });
 
-    console.log(`Current user ${response.data.currentUser}`);
     dispatch(setCurrentUser(response.data.currentUser));
     dispatch(setIsAuthenticating(false));
     return true;
   } catch (err) {
     console.log(`Error while getting current user: ${err}`);
+    dispatch(setIsAuthenticating(false));
+    return false;
   }
 };
 
@@ -61,7 +75,9 @@ export const signUp =
       return true;
     } catch (err) {
       console.log(`Error while signing up: ${err}`);
-      return err.response.data;
+      const errs = catchErrors(err);
+      dispatch(setErrors(errs));
+      return false;
     }
   };
 
@@ -69,7 +85,7 @@ export const signIn =
   ({ email, password }) =>
   async (dispatch) => {
     try {
-      const response = await axiosInstance({
+      await axiosInstance({
         url: '/api/auth/signin',
         method: 'POST',
         body: {
@@ -78,11 +94,12 @@ export const signIn =
         },
       });
 
-      console.log(`Sign in response: ${JSON.stringify(response, null, 2)}`);
       await dispatch(getCurrentUser());
       return true;
     } catch (err) {
       console.log(`Error while signing in: ${err}`);
+      const errs = catchErrors(err);
+      dispatch(setErrors(errs));
       return false;
     }
   };
@@ -91,12 +108,15 @@ export const signOut = () => async (dispatch) => {
   try {
     const response = await axiosInstance({
       url: '/api/auth/signout',
-      method: 'POST',
     });
 
     dispatch(setCurrentUser(response.data.currentUser));
+    return true;
   } catch (err) {
     console.log(`Error while signing out: ${err}`);
+    const errs = catchErrors(err);
+    dispatch(setErrors(errs));
+    return false;
   }
 };
 
