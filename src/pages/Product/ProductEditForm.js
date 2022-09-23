@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getUploadURL,
-  createProduct,
+  updateProduct,
   setErrors,
   clearErrors,
   setLoading,
@@ -17,9 +17,12 @@ import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 
-export default function ProductCreate() {
+export default function ProductEditForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { id } = useParams();
+  const { product } = useSelector((state) => state.product);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -35,12 +38,12 @@ export default function ProductCreate() {
     isLoading: categoryLoading,
   } = useSelector((state) => state.category);
 
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [active, setActive] = useState(true);
-  const [featured, setFeatured] = useState(false);
+  const [name, setName] = useState(product?.name);
+  const [active, setActive] = useState(product?.isActive);
+  const [featured, setFeatured] = useState(product?.isFeatured);
+  const [price, setPrice] = useState(product?.price);
+  const [description, setDescription] = useState(product?.description);
+  const [categoryId, setCategoryId] = useState(product?.category_id);
 
   useEffect(() => {
     return () => {
@@ -62,8 +65,22 @@ export default function ProductCreate() {
     const file = document.getElementById('fileInput').files[0];
 
     if (!file) {
-      dispatch(setErrors([{ message: 'Image is required' }]));
-      dispatch(setLoading(false));
+      const res = await dispatch(
+        updateProduct({
+          id,
+          name,
+          price,
+          description,
+          isActive: active,
+          isFeatured: featured,
+          oldImage: product.image,
+          image: product.image,
+          category_id: categoryId,
+        })
+      );
+      if (res) {
+        navigate('/products');
+      }
       return;
     }
 
@@ -71,8 +88,6 @@ export default function ProductCreate() {
     const uploadURL = await dispatch(
       getUploadURL({ filename: file.name, fileType: file.type })
     );
-
-    console.log(uploadURL);
 
     // upload the file to s3
     try {
@@ -84,20 +99,22 @@ export default function ProductCreate() {
       });
 
       if (response.status === 200) {
-        // create the product in the db
         const res = await dispatch(
-          createProduct({
+          updateProduct({
+            id,
             name,
-            isActive: active,
-            isFeatured: featured,
             price,
             description,
+            isActive: active,
+            isFeatured: featured,
+            oldImage: product.image,
             image: file.name,
-            category_id: categoryId,
           })
         );
+
+        console.log(`Image updated and product updated.`);
         if (res) {
-          navigate('/products');
+          navigate('/Products');
         }
       }
     } catch (err) {
@@ -114,18 +131,17 @@ export default function ProductCreate() {
     <>
       <Form onSubmit={onSubmit} className="container mt-5">
         <div className="d-flex align-items-center justify-content-center mb-5">
-          <h2>Create Product</h2>
+          <h2>Edit Product</h2>
         </div>
 
         {categoryLoading && <p>Fetching Data...</p>}
 
         {categoryErrors.length > 0 && errors(categoryErrors)}
-
         {!categoryLoading && categoryErrors.length === 0 && (
           <>
             <Row className="mb-3">
               <Col>
-                <Form.Label>Product Name</Form.Label>
+                <label className="mb-2">Product Name</label>
                 <Form.Control
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -145,13 +161,23 @@ export default function ProductCreate() {
             <Row className="mb-4">
               <Col>
                 <Form.Label>Product Image</Form.Label>
-                {/* <Form.Control id="fileInput" type="file" /> */}
                 <input
                   type="file"
                   id="fileInput"
                   accept="image/*"
                   className="form-control mb-3"
                 />
+                <div className="d-flex flex-column align-items-start justify-content-start">
+                  <img
+                    style={{ maxHeight: '20rem' }}
+                    src={product?.imageUrl}
+                    alt="product"
+                    className="img-fluid"
+                  />
+                  <p className="mt-2">
+                    <i>Old image</i>
+                  </p>
+                </div>
               </Col>
             </Row>
 
@@ -211,7 +237,7 @@ export default function ProductCreate() {
             </Row>
 
             {!isLoading && (
-              <button className="btn btn-success">+ Create</button>
+              <button className="btn btn-success">Save Changes</button>
             )}
             {isLoading && <Spinner animation="border" variant="success" />}
           </>

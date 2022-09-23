@@ -7,7 +7,7 @@ import errors from '../../services/errors';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { AiFillEdit, AiOutlineDelete } from 'react-icons/ai';
+import { AiFillEdit, AiOutlineDelete, AiOutlineCheck } from 'react-icons/ai';
 
 import DataTable from '../../components/Table';
 import LaunchModal from '../../components/Modal';
@@ -27,7 +27,9 @@ export default function Categories() {
     return categories?.map((row) => (
       <tr key={row.id}>
         <td>{row.name}</td>
-        <td>{row.isActive ? 'Yes' : 'No'}</td>
+        <td>
+          {row.isActive ? <AiOutlineCheck color="green" size="1.1rem" /> : ''}
+        </td>
         <td style={{ cursor: `pointer` }}>
           <AiFillEdit
             onClick={() => navigate(`/categories/${row.id}/edit`)}

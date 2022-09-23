@@ -21,6 +21,7 @@ import CategoryEdit from './pages/Category/CategoryEdit';
 
 import Products from './pages/Product/Products';
 import ProductCreate from './pages/Product/ProductCreate';
+import ProductEdit from './pages/Product/ProductEdit';
 
 export default function App() {
   const auth = useSelector((state) => state.auth);
@@ -52,6 +53,7 @@ export default function App() {
 
               <Route path="/products" element={<Products />} />
               <Route path="/products/new" element={<ProductCreate />} />
+              <Route path="/products/:id/edit" element={<ProductEdit />} />
 
               <Route path="/signout" element={<Signout />} />
 

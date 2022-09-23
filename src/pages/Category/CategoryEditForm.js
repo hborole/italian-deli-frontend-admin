@@ -38,6 +38,7 @@ export default function CategoryEditForm() {
           id,
           name,
           isActive: active,
+          oldImage: category.image,
           image: category.image,
         })
       );
@@ -67,6 +68,7 @@ export default function CategoryEditForm() {
             id,
             name,
             isActive: active,
+            oldImage: category.image,
             image: file.name,
           })
         );
@@ -112,7 +114,7 @@ export default function CategoryEditForm() {
             />
             <div className="d-flex flex-column align-items-start justify-content-start">
               <img
-                width="100%"
+                style={{ maxHeight: '20rem' }}
                 src={category?.imageUrl}
                 alt="category"
                 className="img-fluid"

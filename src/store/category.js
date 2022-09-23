@@ -133,14 +133,14 @@ export const createCategory =
   };
 
 export const updateCategory =
-  ({ id, name, isActive, image }) =>
+  ({ id, name, isActive, oldImage, image }) =>
   async (dispatch) => {
     try {
       dispatch(setLoading(true));
       await axiosInstance({
         url: '/api/categories',
         method: 'PUT',
-        body: { id, name, isActive, image },
+        body: { id, name, isActive, oldImage, image },
       });
 
       await dispatch(getCategories());
