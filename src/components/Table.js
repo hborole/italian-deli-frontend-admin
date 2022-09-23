@@ -1,4 +1,5 @@
 import Table from 'react-bootstrap/Table';
+import classes from './Table.module.scss';
 
 function DataTable({ columns, rows }) {
   if (rows.length === 0) {
@@ -6,15 +7,15 @@ function DataTable({ columns, rows }) {
   }
 
   return (
-    <Table responsive>
-      <thead>
+    <Table className={classes.table}>
+      <thead className={classes.thead}>
         <tr>
           {columns.map((column) => (
             <th key={column.key}>{column.label}</th>
           ))}
         </tr>
       </thead>
-      <tbody>{rows}</tbody>
+      <tbody className={classes.tbody}>{rows}</tbody>
     </Table>
   );
 }

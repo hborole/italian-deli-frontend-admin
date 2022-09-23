@@ -155,4 +155,25 @@ export const updateCategory =
     }
   };
 
+export const deleteCategory = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    await axiosInstance({
+      url: '/api/categories',
+      method: 'DELETE',
+      body: { id },
+    });
+
+    await dispatch(getCategories());
+    dispatch(setLoading(false));
+    return true;
+  } catch (err) {
+    console.log(`Error while updating category: ${err}`);
+    const errs = catchErrors(err);
+    dispatch(setErrors(errs));
+    dispatch(setLoading(false));
+    return false;
+  }
+};
+
 export default categorySlice.reducer;

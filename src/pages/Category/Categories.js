@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../store/category';
+import { getCategories, deleteCategory } from '../../store/category';
 import errors from '../../services/errors';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { AiFillEdit, AiOutlineDelete } from 'react-icons/ai';
+
 import DataTable from '../../components/Table';
+import LaunchModal from '../../components/Modal';
 
 const categoryColumns = [
   { key: 'name', label: 'Name' },
@@ -25,18 +28,36 @@ export default function Categories() {
       <tr key={row.id}>
         <td>{row.name}</td>
         <td>{row.isActive ? 'Yes' : 'No'}</td>
-        <td>
-          <button
-            className="btn btn-sm btn-outline-blue"
+        <td style={{ cursor: `pointer` }}>
+          <AiFillEdit
             onClick={() => navigate(`/categories/${row.id}/edit`)}
-          >
-            Edit
-          </button>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <button className="btn btn-sm btn-outline-danger">Delete</button>
+            size="1.2rem"
+          />
+          <span style={{ marginRight: `2rem` }}></span>
+          <AiOutlineDelete
+            color="#e83939"
+            onClick={() => handleDelete(row.id)}
+            size="1.2rem"
+          />
         </td>
       </tr>
     ));
+  };
+
+  const [show, setShow] = useState(false);
+  const [categoryId, setCategoryId] = useState('');
+
+  // Delete a category
+  const handleDelete = (id) => {
+    setShow(true);
+    setCategoryId(id);
+  };
+
+  const handleClose = () => setShow(false);
+
+  const handleAction = async () => {
+    await dispatch(deleteCategory(categoryId));
+    setShow(false);
   };
 
   useEffect(() => {
@@ -55,6 +76,13 @@ export default function Categories() {
 
   return (
     <Container>
+      <LaunchModal
+        show={show}
+        handleClose={handleClose}
+        handleAction={handleAction}
+        body={'Are you sure you want to delete?'}
+        title={`Delete Category`}
+      />
       <div className="d-flex align-items-center justify-content-between mb-3">
         <h2>Categories</h2>
         <button

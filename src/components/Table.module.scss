@@ -1,0 +1,28 @@
+.table {
+  display: table;
+  background-color: rgb(255, 255, 255);
+  color: rgb(33, 43, 54);
+  background-image: none;
+  overflow: hidden;
+  position: relative;
+  box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px,
+    rgb(145 158 171 / 12%) 0px 12px 24px -4px;
+  border-radius: 16px;
+  z-index: 0;
+}
+
+.thead {
+  color: rgb(99, 115, 129);
+  background-color: rgb(244, 246, 248);
+  border: none;
+
+  & > tr > th {
+    padding: 1.5rem 2.5rem;
+  }
+}
+
+.tbody {
+  & > tr > td {
+    padding: 1rem 2.5rem;
+  }
+}
