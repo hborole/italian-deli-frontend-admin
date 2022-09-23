@@ -26,6 +26,10 @@ export default function SideBar() {
             Dashboard
             <Link to="/" />
           </MenuItem>
+          <MenuItem className={location === '/categories' && 'sidebar-active'}>
+            Categories
+            <Link to="/categories" />
+          </MenuItem>
           <MenuItem className={location === '/products' && 'sidebar-active'}>
             Products
             <Link to="/products" />

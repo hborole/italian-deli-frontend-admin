@@ -6,7 +6,7 @@ function DataTable({ columns, rows }) {
   }
 
   return (
-    <Table striped bordered hover responsive>
+    <Table responsive>
       <thead>
         <tr>
           {columns.map((column) => (
@@ -14,15 +14,7 @@ function DataTable({ columns, rows }) {
           ))}
         </tr>
       </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.id}>
-            {columns.map((column) => (
-              <td key={column.key}>{row[column.key]}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+      <tbody>{rows}</tbody>
     </Table>
   );
 }

@@ -15,6 +15,10 @@ import Loading from './pages/Loading';
 
 import Customers from './pages/Customers';
 
+import Categories from './pages/Category/Categories';
+import CategoryCreate from './pages/Category/CategoryCreate';
+import CategoryEdit from './pages/Category/CategoryEdit';
+
 import Products from './pages/Product/Products';
 import ProductCreate from './pages/Product/ProductCreate';
 
@@ -41,6 +45,10 @@ export default function App() {
               <Route index element={<Dashboard />} />
 
               <Route path="/customers" element={<Customers />} />
+
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/categories/new" element={<CategoryCreate />} />
+              <Route path="/categories/:id/edit" element={<CategoryEdit />} />
 
               <Route path="/products" element={<Products />} />
               <Route path="/products/new" element={<ProductCreate />} />
