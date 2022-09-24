@@ -112,7 +112,6 @@ export const getUploadURL =
 export const createProduct =
   ({ name, price, description, isActive, isFeatured, image, category_id }) =>
   async (dispatch) => {
-    console.log(name, price, description, isActive, image, category_id);
     try {
       dispatch(setLoading(true));
       await axiosInstance({
@@ -120,7 +119,7 @@ export const createProduct =
         method: 'POST',
         body: {
           name,
-          price,
+          price: parseFloat(price.toString()),
           description,
           isActive,
           isFeatured,
@@ -162,7 +161,7 @@ export const updateProduct =
         body: {
           id,
           name,
-          price,
+          price: parseFloat(price.toString()),
           description,
           isActive,
           isFeatured,
