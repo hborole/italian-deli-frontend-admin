@@ -13,7 +13,7 @@ import Signup from './pages/Signup';
 import Signout from './pages/Signout';
 import Loading from './pages/Loading';
 
-import Customers from './pages/Customers';
+import Customers from './pages/Customer/Customers';
 
 import Categories from './pages/Category/Categories';
 import CategoryCreate from './pages/Category/CategoryCreate';

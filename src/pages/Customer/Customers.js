@@ -1,15 +1,35 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCustomers, getCustomers } from '../store/customer';
-import errors from '../services/errors';
+import { getCustomers } from '../../store/customer';
+import errors from '../../services/errors';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import DataTable from '../components/Table';
+
+import DataTable from '../../components/Table';
+
+const customerColumns = [
+  { key: 'name', label: 'Name' },
+  { key: 'email', label: 'Email' },
+  { key: 'billing_address', label: 'Billing Address' },
+  { key: 'shipping_address', label: 'Shipping Address' },
+];
 
 export default function Customers() {
   const dispatch = useDispatch();
+
+  // Map the rows of the table
+  const customerRows = (customers) => {
+    return customers?.map((row) => (
+      <tr key={row.id}>
+        <td>{`${row.first_name} ${row.last_name}`}</td>
+        <td>{row.email}</td>
+        <td>{row.billing_address}</td>
+        <td>{row.shipping_address}</td>
+      </tr>
+    ));
+  };
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -17,10 +37,6 @@ export default function Customers() {
     };
 
     fetchCustomers();
-
-    return () => {
-      dispatch(clearCustomers());
-    };
   }, [dispatch]);
 
   const {
@@ -43,14 +59,8 @@ export default function Customers() {
 
       {!customerLoading && (
         <DataTable
-          columns={[
-            { key: 'first_name', label: 'First Name' },
-            { key: 'last_name', label: 'Last Name' },
-            { key: 'email', label: 'Email' },
-            { key: 'billing_address', label: 'Billing Address' },
-            { key: 'shipping_address', label: 'Shipping Address' },
-          ]}
-          rows={customers}
+          columns={customerColumns}
+          rows={customerRows(customers) || []}
         />
       )}
     </Container>
