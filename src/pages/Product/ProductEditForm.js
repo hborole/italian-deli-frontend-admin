@@ -15,6 +15,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
+import Preview from '../../components/Preview';
 import axios from 'axios';
 
 export default function ProductEditForm() {
@@ -44,6 +45,15 @@ export default function ProductEditForm() {
   const [price, setPrice] = useState(product?.price);
   const [description, setDescription] = useState(product?.description);
   const [categoryId, setCategoryId] = useState(product?.category_id);
+
+  const [selectedImage, setSelectedImage] = useState();
+
+  // This function will be triggered when the file field change
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
 
   useEffect(() => {
     return () => {
@@ -166,17 +176,13 @@ export default function ProductEditForm() {
                   id="fileInput"
                   accept="image/*"
                   className="form-control mb-3"
+                  onChange={imageChange}
                 />
-                <div className="d-flex flex-column align-items-start justify-content-start">
-                  <img
-                    style={{ maxHeight: '20rem' }}
-                    src={product?.imageUrl}
-                    alt="product"
-                    className="img-fluid"
-                  />
-                  <p className="mt-2">
-                    <i>Old image</i>
-                  </p>
+                <div className="d-flex flex-wrap justify-content-between mt-2">
+                  {product?.imageUrl && (
+                    <Preview selectedImage={product?.imageUrl} url={true} />
+                  )}
+                  {selectedImage && <Preview selectedImage={selectedImage} />}
                 </div>
               </Col>
             </Row>

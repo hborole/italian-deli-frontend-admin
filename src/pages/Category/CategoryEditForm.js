@@ -15,6 +15,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
+import Preview from '../../components/Preview';
 
 export default function CategoryEditForm() {
   const navigate = useNavigate();
@@ -25,6 +26,15 @@ export default function CategoryEditForm() {
 
   const [name, setName] = useState(category?.name);
   const [active, setActive] = useState(category?.isActive);
+
+  const [selectedImage, setSelectedImage] = useState();
+
+  // This function will be triggered when the file field change
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -105,29 +115,6 @@ export default function CategoryEditForm() {
           </Col>
 
           <Col>
-            <Form.Label>Category Image</Form.Label>
-            <input
-              type="file"
-              id="fileInput"
-              accept="image/*"
-              className="form-control mb-3"
-            />
-            <div className="d-flex flex-column align-items-start justify-content-start">
-              <img
-                style={{ maxHeight: '20rem' }}
-                src={category?.imageUrl}
-                alt="category"
-                className="img-fluid"
-              />
-              <p className="mt-2">
-                <i>Old image</i>
-              </p>
-            </div>
-          </Col>
-        </Row>
-
-        <Row className="mb-3">
-          <Col>
             <Form.Check
               inline
               label="Active"
@@ -137,6 +124,25 @@ export default function CategoryEditForm() {
               defaultChecked={active}
               onChange={(e) => setActive(e.target.checked)}
             />
+          </Col>
+        </Row>
+
+        <Row className="mb-3">
+          <Col>
+            <Form.Label>Category Image</Form.Label>
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              className="form-control mb-3"
+              onChange={imageChange}
+            />
+            <div className="d-flex flex-wrap justify-content-between mt-2">
+              {category?.imageUrl && (
+                <Preview selectedImage={category?.imageUrl} url={true} />
+              )}
+              {selectedImage && <Preview selectedImage={selectedImage} />}
+            </div>
           </Col>
         </Row>
 

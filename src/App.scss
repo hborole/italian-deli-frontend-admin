@@ -70,3 +70,18 @@ td {
     border-bottom: 1px solid $color-grey-light-2;
   }
 }
+
+.preview {
+  position: relative;
+  width: auto;
+  height: 18rem;
+  object-fit: cover;
+  overflow: hidden;
+
+  &-image {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.2rem 0.5rem rgba($color-black, 0.2);
+  }
+}

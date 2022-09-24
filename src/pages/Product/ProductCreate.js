@@ -15,6 +15,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
+import Preview from '../../components/Preview';
 import axios from 'axios';
 
 export default function ProductCreate() {
@@ -41,6 +42,15 @@ export default function ProductCreate() {
   const [categoryId, setCategoryId] = useState('');
   const [active, setActive] = useState(true);
   const [featured, setFeatured] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState();
+
+  // This function will be triggered when the file field change
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
 
   useEffect(() => {
     return () => {
@@ -151,7 +161,9 @@ export default function ProductCreate() {
                   id="fileInput"
                   accept="image/*"
                   className="form-control mb-3"
+                  onChange={imageChange}
                 />
+                {selectedImage && <Preview selectedImage={selectedImage} />}
               </Col>
             </Row>
 

@@ -15,12 +15,22 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
+import Preview from '../../components/Preview';
 
 export default function CategoryCreate() {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [active, setActive] = useState(true);
+
+  const [selectedImage, setSelectedImage] = useState();
+
+  // This function will be triggered when the file field change
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
 
   const dispatch = useDispatch();
 
@@ -48,8 +58,6 @@ export default function CategoryCreate() {
     const uploadURL = await dispatch(
       getUploadURL({ filename: file.name, fileType: file.type })
     );
-
-    console.log(uploadURL);
 
     // upload the file to s3
     try {
@@ -99,19 +107,6 @@ export default function CategoryCreate() {
           </Col>
 
           <Col>
-            <Form.Label>Category Image</Form.Label>
-            {/* <Form.Control id="fileInput" type="file" /> */}
-            <input
-              type="file"
-              id="fileInput"
-              accept="image/*"
-              className="form-control mb-3"
-            />
-          </Col>
-        </Row>
-
-        <Row className="mb-3">
-          <Col>
             <Form.Check
               inline
               label="Active"
@@ -121,6 +116,21 @@ export default function CategoryCreate() {
               defaultChecked={active}
               onChange={(e) => setActive(e.target.checked)}
             />
+          </Col>
+        </Row>
+
+        <Row className="mb-3">
+          <Col>
+            <Form.Label>Category Image</Form.Label>
+            {/* <Form.Control id="fileInput" type="file" /> */}
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              className="form-control mb-3"
+              onChange={imageChange}
+            />
+            {selectedImage && <Preview selectedImage={selectedImage} />}
           </Col>
         </Row>
 
