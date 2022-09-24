@@ -7,6 +7,7 @@ import errors from '../services/errors';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -68,9 +69,8 @@ export default function Login() {
           <Col>{errors(authErrors)}</Col>
         </Row>
 
-        <button className="btn btn-success" disabled={authLoading}>
-          {authLoading ? 'Logging you in...' : 'Login'}
-        </button>
+        {!authLoading && <button className="btn btn-success">Login</button>}
+        {authLoading && <Spinner animation="border" variant="success" />}
       </Form>
 
       <div className="container mt-5">
