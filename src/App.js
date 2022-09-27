@@ -23,6 +23,8 @@ import Products from './pages/Product/Products';
 import ProductCreate from './pages/Product/ProductCreate';
 import ProductEdit from './pages/Product/ProductEdit';
 
+import Orders from './pages/Order/Orders';
+
 export default function App() {
   const auth = useSelector((state) => state.auth);
 
@@ -54,6 +56,8 @@ export default function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/products/new" element={<ProductCreate />} />
               <Route path="/products/:id/edit" element={<ProductEdit />} />
+
+              <Route path="/orders" element={<Orders />} />
 
               <Route path="/signout" element={<Signout />} />
 
