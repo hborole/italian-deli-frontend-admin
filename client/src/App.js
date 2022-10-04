@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCurrentUser } from './store/auth';
 import { useEffect } from 'react';
@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import './App.scss';
 
 import Layout from './pages/Layout';
-import Dashboard from './pages/Dashboard';
 import NoPage from './pages/NoPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -45,7 +44,7 @@ export default function App() {
         {!auth.isAuthenticating &&
           (auth.currentUser ? (
             <Route path="/" element={<Layout />}>
-              <Route index element={<Dashboard />} />
+              <Route index element={<Navigate to={`/orders`} />} />
 
               <Route path="/customers" element={<Customers />} />
 

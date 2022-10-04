@@ -22,10 +22,6 @@ export default function SideBar() {
 
       <SidebarContent>
         <Menu iconShape="square">
-          <MenuItem className={location === '/' && 'sidebar-active'}>
-            Dashboard
-            <Link to="/" />
-          </MenuItem>
           <MenuItem className={location === '/categories' && 'sidebar-active'}>
             Categories
             <Link to="/categories" />
