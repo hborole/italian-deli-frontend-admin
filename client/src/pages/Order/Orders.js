@@ -14,6 +14,7 @@ const orderColumns = [
   { key: 'total', label: 'Total' },
   { key: 'status', label: 'Status' },
   { key: 'date', label: 'Date' },
+  { key: 'note', label: 'Delivery Note' },
   { key: 'items', label: 'Items' },
 ];
 
@@ -27,6 +28,7 @@ export default function Orders() {
         <td>{`${row.first_name} ${row.last_name}`}</td>
         <td>£&nbsp;{row.total}</td>
         <td>{row.status}</td>
+        <td>{row.note ? row.note : 'None'}</td>
         <td>{new Date(row.order_date).toLocaleDateString('en-UK')}</td>
         <td>
           {row.order_items?.map((item, index) => {
