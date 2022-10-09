@@ -26,3 +26,43 @@
     padding: 1rem 2.5rem;
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  margin: 0;
+  list-style: none;
+  border-top: 1px solid rgb(244, 246, 248);
+
+  &__info {
+    font-size: 0.875rem;
+    color: rgb(99, 115, 129);
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &__pages {
+      font-size: 0.9rem;
+      color: rgb(99, 115, 129);
+
+      &__select {
+        margin-left: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid rgb(244, 246, 248);
+        border-radius: 4px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(33, 43, 54);
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+  }
+}

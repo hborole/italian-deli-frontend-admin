@@ -13,8 +13,8 @@ const orderColumns = [
   { key: 'name', label: 'Name' },
   { key: 'total', label: 'Total' },
   { key: 'status', label: 'Status' },
-  { key: 'date', label: 'Date' },
   { key: 'note', label: 'Delivery Note' },
+  { key: 'date', label: 'Date' },
   { key: 'items', label: 'Items' },
 ];
 
@@ -29,7 +29,13 @@ export default function Orders() {
         <td>£&nbsp;{row.total}</td>
         <td>{row.status}</td>
         <td>{row.note ? row.note : 'None'}</td>
-        <td>{new Date(row.order_date).toLocaleDateString('en-UK')}</td>
+        <td>
+          {new Date(row.order_date).toLocaleDateString('en-UK', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </td>
         <td>
           {row.order_items?.map((item, index) => {
             return (

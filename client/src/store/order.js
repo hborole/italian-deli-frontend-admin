@@ -42,7 +42,6 @@ export const getOrders = () => async (dispatch) => {
       method: 'GET',
     });
 
-    console.log(JSON.stringify(response.data, null, 2));
     dispatch(setOrders(response.data.orders));
     dispatch(setLoading(false));
     return true;
